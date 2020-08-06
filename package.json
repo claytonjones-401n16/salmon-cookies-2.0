@@ -18,5 +18,21 @@
       "server": "server/main.js"
     },
     "testModule": "tests/main.js"
-  }
+  },
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/claytonjones-401n16/salmon-cookies-2.0.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/claytonjones-401n16/salmon-cookies-2.0/issues"
+  },
+  "homepage": "https://github.com/claytonjones-401n16/salmon-cookies-2.0#readme"
 }

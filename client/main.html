@@ -1,20 +1,18 @@
 <head>
-  <title>salmon-cookies-2.0</title>
+  <title>meteor-app</title>
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
-
-  {{> hello}}
-  {{> info}}
+  <h1>Salmon Cookies 2.0</h1>
+  {{> form}} {{> table}}
 </body>
 
 <template name="hello">
-  <button>Click Me</button>
+  <button class="button-to-click">Click Me</button>
   <p>You've pressed the button {{counter}} times.</p>
 </template>
 
-<template name="info">
+<!-- <template name="info">
   <h2>Learn Meteor!</h2>
   <ul>
     <li><a href="https://www.meteor.com/try" target="_blank">Do the Tutorial</a></li>
@@ -22,4 +20,63 @@
     <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
     <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
   </ul>
+</template> -->
+
+<template name="form">
+  <form class="store">
+    <label for="location">Location</label>
+    <input type="text" name="location" placeholder="location" />
+    <label for="min">Minimum Customers</label>
+    <input type="number" name="min" placeholder="min" />
+    <label for="max">Maximum Customers</label>
+    <input type="number" name="max" placeholder="max" />
+    <label for="cookies">Avg. Cookies Per Customer</label>
+    <input type="number" name="cookies" placeholder="avg" />
+  </form>
+</template>
+
+<template name="table">
+  <table>
+    <thead>
+      <th></th>
+      {{#each value in th}} 
+      <th>{{value}}</th> 
+      {{/each}}
+      <th>Total</th>
+    </thead>
+    <tbody>
+      {{#each stores}}
+      <tr>
+        {{> store}}
+      </tr>
+      {{/each}}
+      <tr>
+        <th>Daily Totals</th>
+        {{#each allTotals}}
+          {{> hourTotal}}
+        {{/each}}
+        <th>{{grandTotal}}</th>
+      </tr>
+    </tbody>
+  </table>
+</template>
+
+<template name="tr">
+  <th>{{time}}</th>
+</template>
+
+<template name="store">
+  <th>{{name}}</th>
+  {{#each hourTotals}}
+    {{> hour}}
+  {{/each}}
+  <th>{{dailyTotal}}</th>
+</template>
+
+<template name="hour">
+  <td>{{total}}</td>
+</template>
+
+<template name="hourTotal">
+  <th>{{total}}</th>
 </template>

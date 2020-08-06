@@ -3,25 +3,11 @@ import { ReactiveVar } from "meteor/reactive-var";
 
 import "./main.html";
 
-Template.hello.onCreated(function helloOnCreated() {
-  // counter starts at 0
-  this.counter = new ReactiveVar(0);
-});
 
-Template.hello.helpers({
-  counter() {
-    return Template.instance().counter.get();
-  },
-});
 
-Template.hello.events({
-  "click .button-to-click"(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(instance.counter.get() + 1);
-  },
-});
 
-Template.table.onCreated(function tableCreated() {
+
+Template.body.onCreated(function tableCreated() {
   this.stores = new ReactiveVar([]);
   this.grandTotal = new ReactiveVar(0);
   this.allStoreHourlyTotals = new ReactiveVar([]);
@@ -67,7 +53,44 @@ Template.table.onCreated(function tableCreated() {
   Template.instance().allStoreHourlyTotals.set([...allHourlyTotals]);
 });
 
-Template.table.helpers({
+
+Template.body.events({
+  "submit .storeForm"(event, instance){
+    event.preventDefault();
+    console.log('EVENT TARGET', event.target);
+    let allHourlyTotals = instance.allStoreHourlyTotals.get();
+    let {location, min, max, cookies} = event.target;
+    min = min.value;
+    max = max.value;
+    cookies = cookies.value;
+    location = location.value;
+
+      let hourTotals = [];
+      let dailyTotal = 0;
+      
+      for (let i = 0; i < 14; i++) {
+        let oneHourTotal = Math.floor(
+          (Math.floor(Math.random() * (max + 1 - min)) + min) *
+            cookies
+        );
+        hourTotals.push({ total: oneHourTotal });
+        dailyTotal += oneHourTotal;
+        allHourlyTotals[i] = { total: allHourlyTotals[i].total + oneHourTotal };
+      }
+    console.log('HOUR TOTAL', allHourlyTotals);
+    instance.allStoreHourlyTotals.set(allHourlyTotals);
+    instance.grandTotal.set(instance.grandTotal.get() + dailyTotal);
+      
+
+    instance.stores.set([
+      ...instance.stores.get(),
+      { name: location, hourTotals, dailyTotal },
+    ]);
+  
+  }
+})
+
+Template.body.helpers({
   th: [
     "6am",
     "7am",
